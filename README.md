@@ -1,3 +1,3 @@
-# dabosaur.github.io
+# VictorColdea.github.io
 
-Just a portfolio of some notable things I've managed to code.
+Some small projects from first and second year at university.
