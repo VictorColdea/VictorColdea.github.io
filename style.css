@@ -47,6 +47,11 @@ body {
   font-weight: 600;
 }
 
+.site-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
 .filters {
   display: flex;
   gap: 1.5rem;
@@ -72,7 +77,7 @@ body {
   border-bottom-color: var(--accent);
 }
 
-.about-link {
+.nav-link {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   text-transform: uppercase;
@@ -82,17 +87,16 @@ body {
   border-bottom: 2px solid transparent;
 }
 
-.about-link:hover { color: var(--ink); border-bottom-color: var(--accent); }
+.nav-link:hover { color: var(--ink); border-bottom-color: var(--accent); }
 
-/* ---------- About ---------- */
+/* ---------- About (standalone page: about.html) ---------- */
 
 .about {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
-  padding: 2rem;
-  border-bottom: 1px solid var(--line);
-  scroll-margin-top: 1rem;
+  gap: 2.5rem;
+  padding: 3rem 2rem;
+  max-width: 1000px;
 }
 
 .about-text { flex: 2; min-width: 240px; }
@@ -295,6 +299,9 @@ body {
   max-height: 88vh;
   object-fit: contain;
   display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+  touch-action: none;
 }
 
 .lightbox-image-wrap .placeholder {

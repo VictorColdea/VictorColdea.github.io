@@ -12,6 +12,14 @@
   block instead, so the layout still looks right.
 */
 
+/*
+  How far clicking a lightbox photo zooms in. 3 means the zoomed photo
+  is 3x the size it was displayed at, so you see roughly 1/3 of its
+  height at a time. Raise it to zoom in further, lower it (e.g. 1.5)
+  for a gentler zoom.
+*/
+const ZOOM_FACTOR = 3;
+
 const PHOTOS = [
   { src: "Photos/100_1312.jpg",     alt: "an urban shot",                                tags: ["urban"] },
   { src: "Photos/moller-to-the-moon.jpeg", alt: "Moller to the Moon.",  tags: ["night"] },
@@ -198,6 +206,7 @@ function openLightbox(index) {
     const img = document.createElement("img");
     img.src = photo.src;
     img.alt = photo.alt;
+    img.draggable = false;
     lightboxImageWrap.appendChild(img);
     lightboxImageWrap.classList.remove("no-zoom");
   } else {
@@ -262,6 +271,7 @@ document.addEventListener("keydown", (e) => {
 lightboxImageWrap.addEventListener("pointerdown", (e) => {
   const img = lightboxImageWrap.querySelector("img");
   if (!img) return;
+  e.preventDefault(); // stop the browser's built-in "drag this image" gesture
   isPanning = true;
   panStart = {
     x: e.clientX,
@@ -299,10 +309,13 @@ function toggleZoom() {
   if (!img) return;
   isZoomed = !isZoomed;
   if (isZoomed) {
-    const naturalW = img.naturalWidth || img.width || lightboxImageWrap.clientWidth;
+    // Base the zoom on how large the photo is currently *displayed*,
+    // not its raw file resolution — phone photos are often 3000px+,
+    // so zooming off that would blow the image up far too much.
+    const displayedWidth = img.getBoundingClientRect().width;
     img.style.maxWidth = "none";
     img.style.maxHeight = "none";
-    img.style.width = naturalW * 1.8 + "px";
+    img.style.width = displayedWidth * ZOOM_FACTOR + "px";
     lightboxImageWrap.classList.add("zoomed");
     // Center the zoomed view rather than anchoring to a corner
     lightboxImageWrap.scrollLeft = (lightboxImageWrap.scrollWidth - lightboxImageWrap.clientWidth) / 2;

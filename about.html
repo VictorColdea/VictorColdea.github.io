@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Doboman Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <h1 class="site-title"><a class="site-title-link" href="index.html">DOBOMAN<span class="site-title-sub">&nbsp;/&nbsp;PHOTOGRAPHY</span></a></h1>
+  <a class="nav-link" href="index.html">Gallery</a>
+</header>
+
+<section class="about">
+  <div class="about-text">
+    <p class="about-eyebrow">About</p>
+    <!-- Replace this paragraph with your own bio -->
+    <p>
+      Write something about yourself and your photography here. A couple
+      of sentences on what you shoot, why, or what you're drawn to is
+      plenty — this is just plain text, so edit it directly in
+      <code>about.html</code>.
+    </p>
+  </div>
+  <!-- Placeholder for a future photo of yourself — replace this div
+       with an <img src="Photos/your-photo.jpg" alt="..."> when ready -->
+  <div class="about-photo" aria-hidden="true"></div>
+</section>
+
+<footer class="site-footer">
+  <p>Shot on phone. No pretensions. <span class="footer-mono">&copy; <span id="year"></span></span></p>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
