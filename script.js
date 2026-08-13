@@ -10,19 +10,19 @@
 */
 
 const PHOTOS = [
-  { src: "Photos/100_1312.jpg",     alt: "Placeholder — replace with an urban shot",     category: "urban" },
-  { src: "images/landscape-01.jpg", alt: "Placeholder — replace with a landscape shot",  category: "landscape" },
-  { src: "images/urban-02.jpg",     alt: "Placeholder — replace with an urban shot",     category: "urban" },
-  { src: "images/portrait-01.jpg",  alt: "Placeholder — replace with a portrait",        category: "portrait" },
-  { src: "images/urban-03.jpg",     alt: "Placeholder — replace with an urban shot",     category: "urban" },
-  { src: "images/landscape-02.jpg", alt: "Placeholder — replace with a landscape shot",  category: "landscape" },
+  { src: "Photos/100_1312.jpg",     alt: "an urban shot",     category: "urban" },
+  { src: "Photos/landscape-01.jpg", alt: "Placeholder — replace with a landscape shot",  category: "landscape" },
+  { src: "Photos/urban-02.jpg",     alt: "Placeholder — replace with an urban shot",     category: "urban" },
+  { src: "Photos/portrait-01.jpg",  alt: "Placeholder — replace with a portrait",        category: "portrait" },
+  { src: "Photos/urban-03.jpg",     alt: "Placeholder — replace with an urban shot",     category: "urban" },
+  { src: "Photos/landscape-02.jpg", alt: "Placeholder — replace with a landscape shot",  category: "landscape" },
 ];
 
 const gallery = document.getElementById("gallery");
 const filterButtons = document.querySelectorAll(".filter-btn");
 
 // Rough aspect ratios so placeholder blocks aren't all identical squares
-const PLACEHOLDER_RATIOS = ["3/4", "4/5", "1/1", "5/4", "3/5"];
+const PLACEHOLDER_RATIOS = ["1/2", "4/5", "1/1", "5/4", "3/5"];
 
 function render() {
   gallery.innerHTML = "";
