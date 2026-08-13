@@ -13,8 +13,8 @@
 */
 
 const PHOTOS = [
-  { src: "Photos/100_1312.jpg",     alt: "an urban shot",                                tags: ["urban","Barcelona"] },
-  { src: "Photos/landscape-01.jpg", alt: "Placeholder — replace with a landscape shot",  tags: ["landscape"] },
+  { src: "Photos/100_1312.jpg",     alt: "an urban shot",                                tags: ["urban"] },
+  { src: "Photos/moller-to-the-moon.jpeg", alt: "Moller to the Moon.",  tags: ["night"] },
   { src: "Photos/urban-02.jpg",     alt: "an urban shot",                                tags: ["urban"] },
   { src: "Photos/portrait-01.jpg",  alt: "Placeholder — replace with a portrait",        tags: ["portrait"] },
   { src: "Photos/urban-03.jpg",     alt: "Placeholder — replace with an urban shot",     tags: ["urban"] },
@@ -38,6 +38,7 @@ const PALETTE = [
 ];
 
 const selectedTags = new Set();
+const loadedSrc = {}; // index -> true (real image loaded) | false (using placeholder)
 
 function allTags() {
   const set = new Set();
@@ -111,12 +112,14 @@ function render() {
 
     const img = new Image();
     img.onload = () => {
+      loadedSrc[i] = true;
       card.innerHTML = "";
       img.alt = photo.alt;
       card.appendChild(img);
       card.appendChild(caption(i, photo.tags));
     };
     img.onerror = () => {
+      loadedSrc[i] = false;
       const ph = document.createElement("div");
       ph.className = "placeholder";
       ph.style.setProperty("--ar", PLACEHOLDER_RATIOS[i % PLACEHOLDER_RATIOS.length]);
@@ -125,6 +128,8 @@ function render() {
       card.appendChild(caption(i, photo.tags));
     };
     img.src = photo.src;
+
+    card.addEventListener("click", () => openLightbox(i));
 
     gallery.appendChild(card);
   });
@@ -145,6 +150,64 @@ function caption(index, tags) {
 }
 
 document.getElementById("year").textContent = new Date().getFullYear();
+
+// ---------- Lightbox ----------
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImageWrap = document.getElementById("lightboxImageWrap");
+const lightboxFrame = document.getElementById("lightboxFrame");
+const lightboxDesc = document.getElementById("lightboxDesc");
+const lightboxTags = document.getElementById("lightboxTags");
+const lightboxClose = document.getElementById("lightboxClose");
+
+let lastFocused = null;
+
+function openLightbox(index) {
+  const photo = PHOTOS[index];
+  lastFocused = document.activeElement;
+
+  lightboxImageWrap.innerHTML = "";
+  if (loadedSrc[index]) {
+    const img = document.createElement("img");
+    img.src = photo.src;
+    img.alt = photo.alt;
+    lightboxImageWrap.appendChild(img);
+  } else {
+    const ph = document.createElement("div");
+    ph.className = "placeholder";
+    ph.style.background = hashColor(photo.tags[0] || "misc");
+    lightboxImageWrap.appendChild(ph);
+  }
+
+  lightboxFrame.textContent = "N\u00B0" + String(index + 1).padStart(3, "0");
+  lightboxDesc.textContent = photo.alt;
+  lightboxTags.innerHTML = "";
+  photo.tags.forEach((t) => {
+    const span = document.createElement("span");
+    span.textContent = t;
+    lightboxTags.appendChild(span);
+  });
+
+  lightbox.hidden = false;
+  document.body.style.overflow = "hidden";
+  lightboxClose.focus();
+}
+
+function closeLightbox() {
+  lightbox.hidden = true;
+  document.body.style.overflow = "";
+  if (lastFocused) lastFocused.focus();
+}
+
+lightboxClose.addEventListener("click", closeLightbox);
+
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
+});
 
 buildFilterButtons();
 render();

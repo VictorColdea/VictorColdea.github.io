@@ -149,3 +149,108 @@ body {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* ---------- Lightbox ---------- */
+
+.photo-card { cursor: pointer; }
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 24, 26, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 1000;
+}
+
+.lightbox[hidden] { display: none; }
+
+.lightbox-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.75rem;
+  background: none;
+  border: none;
+  color: #EDEBE4;
+  font-size: 2.25rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+}
+
+.lightbox-close:hover { color: var(--accent); }
+
+.lightbox-content {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  max-height: 88vh;
+  background: var(--bg);
+}
+
+.lightbox-image-wrap {
+  flex: 2;
+  min-width: 0;
+  background: #0B0C0D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-image-wrap img {
+  max-width: 100%;
+  max-height: 88vh;
+  object-fit: contain;
+  display: block;
+}
+
+.lightbox-image-wrap .placeholder {
+  width: 100%;
+  aspect-ratio: 4/5;
+}
+
+.lightbox-panel {
+  flex: 1;
+  min-width: 220px;
+  padding: 1.75rem;
+  overflow-y: auto;
+  border-left: 1px solid var(--line);
+  font-family: var(--font-mono);
+}
+
+.lightbox-frame {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin-bottom: 1rem;
+}
+
+.lightbox-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 1.25rem;
+}
+
+.lightbox-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.lightbox-tags span {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.2rem 0.5rem;
+}
+
+@media (max-width: 700px) {
+  .lightbox { padding: 0; }
+  .lightbox-content { flex-direction: column; max-height: 100vh; overflow-y: auto; }
+  .lightbox-image-wrap img { max-height: 60vh; }
+  .lightbox-panel { border-left: none; border-top: 1px solid var(--line); }
+}
