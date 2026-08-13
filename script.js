@@ -28,12 +28,12 @@
 const ZOOM_FACTOR = 2;
 
 const PHOTOS = [
-  { src: "Photos/100_1312.jpg",     alt: "an urban shot",                                tags: ["urban"] },
-  { src: "Photos/moller-to-the-moon.jpeg", alt: "Moller to the Moon.",  tags: ["night"] },
-  { src: "Photos/urban-02.jpg",     alt: "an urban shot",                                tags: ["urban"] },
-  { src: "Photos/portrait-01.jpg",  alt: "Placeholder — replace with a portrait",        tags: ["portrait"] },
-  { src: "Photos/urban-03.jpg",     alt: "Placeholder — replace with an urban shot",     tags: ["urban"] },
-  { src: "Photos/landscape-02.jpg", alt: "Placeholder — replace with a landscape shot",  tags: ["landscape"] },
+  { src: "Photos/100_1312.jpg", alt: "an urban shot", tags: ["urban"] },
+  { src: "Photos/moller-to-the-moon.jpg", alt: "Moller to the Moon.", tags: ["night"], date: "June 8, 2024", location: "United Kingdom" },
+  { src: "Photos/urban-02.jpg", alt: "an urban shot", tags: ["urban"] },
+  { src: "Photos/portrait-01.jpg", alt: "Placeholder — replace with a portrait", tags: ["portrait"] },
+  { src: "Photos/urban-03.jpg", alt: "Placeholder — replace with an urban shot", tags: ["urban"] },
+  { src: "Photos/landscape-02.jpg", alt: "Placeholder — replace with a landscape shot", tags: ["landscape"] },
 ];
 
 const gallery = document.getElementById("gallery");

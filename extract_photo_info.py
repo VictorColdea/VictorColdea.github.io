@@ -123,6 +123,7 @@ def main():
     entries = ENTRY_RE.findall(content)
     if not entries:
         sys.exit(f"Couldn't find any PHOTOS entries in {SCRIPT_JS} — is the format still `{{ src: ..., alt: ..., tags: [...] }}`?")
+    print(f"Found {len(entries)} photo entries in {SCRIPT_JS}: \n{[entries[i][0] for i in range(len(entries))]}")
 
     lines = []
     found, missing_file, missing_exif = 0, 0, 0
