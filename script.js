@@ -29,12 +29,12 @@
 const ZOOM_FACTOR = 2;
 
 const PHOTOS = [
-  { src: "Photos/100_1312.jpg", alt: "an urban shot", tags: ["urban"] },
-  { src: "Photos/moller-to-the-moon.jpg", alt: "Moller to the Moon.", tags: ["night"], date: "June 8, 2024", location: "United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/38 24mm ISO550" },
+  { src: "Photos/100_1312.jpg", alt: "an urban shot", tags: ["urban"], location: "Barcelona, Spain" },
   { src: "Photos/berliner_dom_angle_streetlights.jpg", alt: "Berliner Dom", tags: ["night", "urban"], date: "March 21, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/47 24mm ISO334" },
   { src: "Photos/ducklings_cavendish_pond.jpg", alt: "Ducklings next to the Cavendish pond.", tags: ["wildlife"], date: "July 29, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/168 106mm ISO34" },
-  { src: "Photos/urban-03.jpg", alt: "Placeholder — replace with an urban shot", tags: ["urban"] },
-  { src: "Photos/landscape-02.jpg", alt: "Placeholder — replace with a landscape shot", tags: ["landscape"] },
+  { src: "Photos/moller-to-the-moon.jpg", alt: "Moller to the Moon.", tags: ["night"], date: "June 8, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/38 24mm ISO550" },
+  { src: "Photos/transfagarasan_waterfall.jpg", date: "August 11, 2023", camera: "Sony XQ-AD51  f/2 1/613 4mm ISO106" },
+  { src: "Photos/ucsb_ocean_sunrise.jpg", date: "September 4, 2023", camera: "Sony XQ-AD51  f/2 1/4329 4mm ISO121" },
 ];
 
 const gallery = document.getElementById("gallery");
