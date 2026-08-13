@@ -4,10 +4,11 @@
     alt   — short description (for accessibility, also helps SEO)
     tags  — an array of any words you want, e.g. ["urban", "night", "phone"]
 
-  Two more fields are optional and show up in the lightbox side panel
+  A few more fields are optional and show up in the lightbox side panel
   if present:
     date     — e.g. "August 15, 2024"
-    location — e.g. "Japan"
+    location — e.g. "Tokyo, Japan"
+    camera   — e.g. "Google Pixel 6 Pro  f/3.5 1/168 19mm ISO34"
   Fill these in by hand, or run extract_photo_info.py to pull them
   from each photo's EXIF data automatically (see that file for how).
 
@@ -29,9 +30,9 @@ const ZOOM_FACTOR = 2;
 
 const PHOTOS = [
   { src: "Photos/100_1312.jpg", alt: "an urban shot", tags: ["urban"] },
-  { src: "Photos/moller-to-the-moon.jpg", alt: "Moller to the Moon.", tags: ["night"], date: "June 8, 2024", location: "United Kingdom" },
-  { src: "Photos/urban-02.jpg", alt: "an urban shot", tags: ["urban"] },
-  { src: "Photos/portrait-01.jpg", alt: "Placeholder — replace with a portrait", tags: ["portrait"] },
+  { src: "Photos/moller-to-the-moon.jpg", alt: "Moller to the Moon.", tags: ["night"], date: "June 8, 2024", location: "United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/38 24mm ISO550" },
+  { src: "Photos/berliner_dom_angle_streetlights.jpg", alt: "Berliner Dom", tags: ["night", "urban"], date: "March 21, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/47 24mm ISO334" },
+  { src: "Photos/ducklings_cavendish_pond.jpg", alt: "Ducklings next to the Cavendish pond.", tags: ["wildlife"], date: "July 29, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/168 106mm ISO34" },
   { src: "Photos/urban-03.jpg", alt: "Placeholder — replace with an urban shot", tags: ["urban"] },
   { src: "Photos/landscape-02.jpg", alt: "Placeholder — replace with a landscape shot", tags: ["landscape"] },
 ];
@@ -172,6 +173,7 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImageWrap = document.getElementById("lightboxImageWrap");
 const lightboxFrame = document.getElementById("lightboxFrame");
 const lightboxMeta = document.getElementById("lightboxMeta");
+const lightboxCamera = document.getElementById("lightboxCamera");
 const lightboxDesc = document.getElementById("lightboxDesc");
 const lightboxTags = document.getElementById("lightboxTags");
 const lightboxClose = document.getElementById("lightboxClose");
@@ -227,6 +229,7 @@ function openLightbox(index) {
 
   lightboxFrame.textContent = "N\u00B0" + String(index + 1).padStart(3, "0");
   lightboxMeta.textContent = [photo.date, photo.location].filter(Boolean).join(" \u00B7 ");
+  lightboxCamera.textContent = photo.camera || "";
   lightboxDesc.textContent = photo.alt;
   lightboxTags.innerHTML = "";
   photo.tags.forEach((t) => {

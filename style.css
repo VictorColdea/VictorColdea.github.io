@@ -338,6 +338,14 @@ body {
 
 .lightbox-meta:empty { display: none; }
 
+.lightbox-camera {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  margin: 0 0 1.25rem;
+}
+
+.lightbox-camera:empty { display: none; }
+
 .lightbox-desc {
   font-family: var(--font-body);
   font-size: 0.95rem;
