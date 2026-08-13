@@ -33,8 +33,13 @@ const PHOTOS = [
   { src: "Photos/berliner_dom_angle_streetlights.jpg", alt: "Berliner Dom", tags: ["night", "urban"], date: "March 21, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/47 24mm ISO334" },
   { src: "Photos/ducklings_cavendish_pond.jpg", alt: "Ducklings next to the Cavendish pond.", tags: ["wildlife"], date: "July 29, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/168 106mm ISO34" },
   { src: "Photos/moller-to-the-moon.jpg", alt: "Moller to the Moon.", tags: ["night"], date: "June 8, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/38 24mm ISO550" },
-  { src: "Photos/transfagarasan_waterfall.jpg", date: "August 11, 2023", camera: "Sony XQ-AD51  f/2 1/613 4mm ISO106" },
-  { src: "Photos/ucsb_ocean_sunrise.jpg", date: "September 4, 2023", camera: "Sony XQ-AD51  f/2 1/4329 4mm ISO121" },
+  { src: "Photos/transfagarasan_waterfall.jpg", alt: "Transfagarasan waterfall, taken from inside a bus.", date: "August 11, 2023", tags: ["landscape"], camera: "Sony XQ-AD51  f/2 1/613 4mm ISO106" },
+  { src: "Photos/ucsb_ocean_sunrise.jpg", alt: "Sunrise near Santa Barbara.", date: "September 4, 2023", tags: ['sunrise'], camera: "Sony XQ-AD51  f/2 1/4329 4mm ISO121" },
+  { src: "Photos/beecroft_building.jpg", alt: "Beecroft Building in the Physics Department.", tags: ["indoors", "perspective"], date: "October 1, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/82 24mm ISO85" },
+  { src: "Photos/churchill_tree_backlit.jpg", tags: ["sunlight"], date: "May 17, 2026", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/643 24mm ISO43" },
+  { src: "Photos/hepworth_fog_light.jpg", tags: ["night"], date: "November 1, 2024", camera: "Google Pixel 6 Pro  f/1.85 1/6 24mm ISO1113" },
+  { src: "Photos/moon_crescent_oxford.jpg", tags: ["night"],date: "January 2, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/15 106mm ISO2090" },
+  { src: "Photos/pathway_perspective_DAMTP.jpg", alt: "Pathway outside DAMTP in Cambridge.", tags: ["perspective"], date: "October 13, 2025", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/133 106mm ISO161" },
 ];
 
 const gallery = document.getElementById("gallery");
