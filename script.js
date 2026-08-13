@@ -159,12 +159,39 @@ const lightboxFrame = document.getElementById("lightboxFrame");
 const lightboxDesc = document.getElementById("lightboxDesc");
 const lightboxTags = document.getElementById("lightboxTags");
 const lightboxClose = document.getElementById("lightboxClose");
+const lightboxPrev = document.getElementById("lightboxPrev");
+const lightboxNext = document.getElementById("lightboxNext");
 
 let lastFocused = null;
+let currentIndex = null;
+let isZoomed = false;
+let isPanning = false;
+let panStart = { x: 0, y: 0, scrollLeft: 0, scrollTop: 0, moved: false };
+
+// Indices into PHOTOS that match the currently active tag filter —
+// this is what prev/next cycle through, not the full PHOTOS array
+function visibleIndices() {
+  return PHOTOS
+    .map((p, i) => i)
+    .filter((i) => selectedTags.size === 0 || PHOTOS[i].tags.some((t) => selectedTags.has(t)));
+}
+
+function resetZoom() {
+  isZoomed = false;
+  lightboxImageWrap.classList.remove("zoomed", "panning");
+  const img = lightboxImageWrap.querySelector("img");
+  if (img) {
+    img.style.width = "";
+    img.style.maxWidth = "";
+    img.style.maxHeight = "";
+  }
+}
 
 function openLightbox(index) {
+  currentIndex = index;
   const photo = PHOTOS[index];
   lastFocused = document.activeElement;
+  resetZoom();
 
   lightboxImageWrap.innerHTML = "";
   if (loadedSrc[index]) {
@@ -172,11 +199,13 @@ function openLightbox(index) {
     img.src = photo.src;
     img.alt = photo.alt;
     lightboxImageWrap.appendChild(img);
+    lightboxImageWrap.classList.remove("no-zoom");
   } else {
     const ph = document.createElement("div");
     ph.className = "placeholder";
     ph.style.background = hashColor(photo.tags[0] || "misc");
     lightboxImageWrap.appendChild(ph);
+    lightboxImageWrap.classList.add("no-zoom"); // nothing to zoom on a placeholder
   }
 
   lightboxFrame.textContent = "N\u00B0" + String(index + 1).padStart(3, "0");
@@ -188,6 +217,11 @@ function openLightbox(index) {
     lightboxTags.appendChild(span);
   });
 
+  const visible = visibleIndices();
+  const showNav = visible.length > 1;
+  lightboxPrev.classList.toggle("hidden", !showNav);
+  lightboxNext.classList.toggle("hidden", !showNav);
+
   lightbox.hidden = false;
   document.body.style.overflow = "hidden";
   lightboxClose.focus();
@@ -196,18 +230,90 @@ function openLightbox(index) {
 function closeLightbox() {
   lightbox.hidden = true;
   document.body.style.overflow = "";
+  resetZoom();
   if (lastFocused) lastFocused.focus();
 }
 
+function navigate(direction) {
+  const visible = visibleIndices();
+  if (visible.length < 2) return;
+  const pos = visible.indexOf(currentIndex);
+  const nextPos = (pos + direction + visible.length) % visible.length;
+  openLightbox(visible[nextPos]);
+}
+
 lightboxClose.addEventListener("click", closeLightbox);
+lightboxPrev.addEventListener("click", () => navigate(-1));
+lightboxNext.addEventListener("click", () => navigate(1));
 
 lightbox.addEventListener("click", (e) => {
   if (e.target === lightbox) closeLightbox();
 });
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
+  if (lightbox.hidden) return;
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowLeft") navigate(-1);
+  if (e.key === "ArrowRight") navigate(1);
 });
+
+// Click image to zoom in (centered), click again to zoom back out.
+// While zoomed, drag/touch-drag pans around via native scrolling.
+lightboxImageWrap.addEventListener("pointerdown", (e) => {
+  const img = lightboxImageWrap.querySelector("img");
+  if (!img) return;
+  isPanning = true;
+  panStart = {
+    x: e.clientX,
+    y: e.clientY,
+    scrollLeft: lightboxImageWrap.scrollLeft,
+    scrollTop: lightboxImageWrap.scrollTop,
+    moved: false,
+  };
+  lightboxImageWrap.setPointerCapture(e.pointerId);
+});
+
+lightboxImageWrap.addEventListener("pointermove", (e) => {
+  if (!isPanning || !isZoomed) return;
+  const dx = e.clientX - panStart.x;
+  const dy = e.clientY - panStart.y;
+  if (Math.abs(dx) > 4 || Math.abs(dy) > 4) panStart.moved = true;
+  lightboxImageWrap.scrollLeft = panStart.scrollLeft - dx;
+  lightboxImageWrap.scrollTop = panStart.scrollTop - dy;
+  lightboxImageWrap.classList.add("panning");
+});
+
+lightboxImageWrap.addEventListener("pointerup", () => {
+  isPanning = false;
+  lightboxImageWrap.classList.remove("panning");
+  if (!panStart.moved) toggleZoom();
+});
+
+lightboxImageWrap.addEventListener("pointercancel", () => {
+  isPanning = false;
+  lightboxImageWrap.classList.remove("panning");
+});
+
+function toggleZoom() {
+  const img = lightboxImageWrap.querySelector("img");
+  if (!img) return;
+  isZoomed = !isZoomed;
+  if (isZoomed) {
+    const naturalW = img.naturalWidth || img.width || lightboxImageWrap.clientWidth;
+    img.style.maxWidth = "none";
+    img.style.maxHeight = "none";
+    img.style.width = naturalW * 1.8 + "px";
+    lightboxImageWrap.classList.add("zoomed");
+    // Center the zoomed view rather than anchoring to a corner
+    lightboxImageWrap.scrollLeft = (lightboxImageWrap.scrollWidth - lightboxImageWrap.clientWidth) / 2;
+    lightboxImageWrap.scrollTop = (lightboxImageWrap.scrollHeight - lightboxImageWrap.clientHeight) / 2;
+  } else {
+    img.style.width = "";
+    img.style.maxWidth = "";
+    img.style.maxHeight = "";
+    lightboxImageWrap.classList.remove("zoomed");
+  }
+}
 
 buildFilterButtons();
 render();
