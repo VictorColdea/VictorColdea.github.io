@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doboman — Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <h1 class="site-title">DOBOMAN<span class="site-title-sub">&nbsp;/&nbsp;PHOTOGRAPHY</span></h1>
+  <nav class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="urban">Urban</button>
+    <button class="filter-btn" data-filter="landscape">Landscape</button>
+    <button class="filter-btn" data-filter="portrait">Portraits</button>
+  </nav>
+</header>
+
+<main class="gallery" id="gallery">
+  <!-- Photo cards are injected by script.js from the PHOTOS array -->
+</main>
+
+<footer class="site-footer">
+  <p>Shot on phone. No pretensions. <span class="footer-mono">&copy; <span id="year"></span></span></p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

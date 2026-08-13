@@ -1,0 +1,151 @@
+:root {
+  --bg: #EAEAE4;
+  --ink: #16181A;
+  --ink-soft: #55574F;
+  --line: #C7C4BB;
+  --accent: #2F6F6B;
+  --accent-warm: #B5602E;
+
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem 2rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.site-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  letter-spacing: 0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.site-title-sub {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.filters {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.filter-btn {
+  background: none;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+.filter-btn:hover { color: var(--ink); }
+
+.filter-btn.active {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+/* ---------- Gallery (masonry via CSS columns) ---------- */
+
+.gallery {
+  column-count: 3;
+  column-gap: 1rem;
+  padding: 1.5rem 2rem 3rem;
+}
+
+@media (max-width: 900px) {
+  .gallery { column-count: 2; }
+}
+
+@media (max-width: 560px) {
+  .gallery { column-count: 1; }
+  .site-header { padding: 1.5rem 1.25rem 1rem; }
+  .gallery { padding: 1.25rem 1.25rem 2.5rem; }
+}
+
+.photo-card {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  background: var(--ink);
+  overflow: hidden;
+  position: relative;
+}
+
+.photo-card.hidden { display: none; }
+
+.photo-card img,
+.photo-card .placeholder {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Used only until you drop in real photos — see README */
+.placeholder {
+  aspect-ratio: var(--ar, 4/5);
+}
+
+.photo-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  color: #EDEBE4;
+  background: var(--ink);
+}
+
+.photo-caption .frame-no { opacity: 0.6; }
+.photo-caption .tag { color: var(--accent); text-transform: uppercase; }
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  padding: 1.5rem 2rem 2.5rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.footer-mono { float: right; }
+
+/* ---------- Accessibility ---------- */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
