@@ -267,6 +267,12 @@ body {
 
 .lightbox-image-wrap.zoomed {
   cursor: grab;
+  /* Centered flex alignment makes the leading-edge overflow (the top)
+     unreachable via scroll — switch to flex-start once zoomed so the
+     full image, top to bottom, is actually scrollable. The initial
+     centered view is still set programmatically in toggleZoom(). */
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .lightbox-image-wrap.zoomed.panning {

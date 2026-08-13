@@ -18,7 +18,7 @@
   height at a time. Raise it to zoom in further, lower it (e.g. 1.5)
   for a gentler zoom.
 */
-const ZOOM_FACTOR = 3;
+const ZOOM_FACTOR = 2;
 
 const PHOTOS = [
   { src: "Photos/100_1312.jpg",     alt: "an urban shot",                                tags: ["urban"] },
