@@ -4,6 +4,13 @@
     alt   — short description (for accessibility, also helps SEO)
     tags  — an array of any words you want, e.g. ["urban", "night", "phone"]
 
+  Two more fields are optional and show up in the lightbox side panel
+  if present:
+    date     — e.g. "August 15, 2024"
+    location — e.g. "Japan"
+  Fill these in by hand, or run extract_photo_info.py to pull them
+  from each photo's EXIF data automatically (see that file for how).
+
   Filter buttons at the top are generated automatically from whatever
   tags show up across all photos below — add a new tag to a photo and
   a new button appears, no need to edit anything else.
@@ -164,6 +171,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
 const lightbox = document.getElementById("lightbox");
 const lightboxImageWrap = document.getElementById("lightboxImageWrap");
 const lightboxFrame = document.getElementById("lightboxFrame");
+const lightboxMeta = document.getElementById("lightboxMeta");
 const lightboxDesc = document.getElementById("lightboxDesc");
 const lightboxTags = document.getElementById("lightboxTags");
 const lightboxClose = document.getElementById("lightboxClose");
@@ -218,6 +226,7 @@ function openLightbox(index) {
   }
 
   lightboxFrame.textContent = "N\u00B0" + String(index + 1).padStart(3, "0");
+  lightboxMeta.textContent = [photo.date, photo.location].filter(Boolean).join(" \u00B7 ");
   lightboxDesc.textContent = photo.alt;
   lightboxTags.innerHTML = "";
   photo.tags.forEach((t) => {

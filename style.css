@@ -327,8 +327,16 @@ body {
 .lightbox-frame {
   font-size: 0.8rem;
   color: var(--ink-soft);
-  margin-bottom: 1rem;
+  margin-bottom: 0.35rem;
 }
+
+.lightbox-meta {
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin: 0 0 1rem;
+}
+
+.lightbox-meta:empty { display: none; }
 
 .lightbox-desc {
   font-family: var(--font-body);
