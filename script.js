@@ -10,7 +10,7 @@
 */
 
 const PHOTOS = [
-  { src: "images/urban-01.jpg",     alt: "Placeholder — replace with an urban shot",     category: "urban" },
+  { src: "Photos/100_1312.jpg",     alt: "Placeholder — replace with an urban shot",     category: "urban" },
   { src: "images/landscape-01.jpg", alt: "Placeholder — replace with a landscape shot",  category: "landscape" },
   { src: "images/urban-02.jpg",     alt: "Placeholder — replace with an urban shot",     category: "urban" },
   { src: "images/portrait-01.jpg",  alt: "Placeholder — replace with a portrait",        category: "portrait" },
