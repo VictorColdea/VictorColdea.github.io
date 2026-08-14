@@ -12,9 +12,9 @@
   Fill these in by hand, or run extract_photo_info.py to pull them
   from each photo's EXIF data automatically (see that file for how).
 
-  Filter buttons at the top are generated automatically from whatever
-  tags show up across all photos below — add a new tag to a photo and
-  a new button appears, no need to edit anything else.
+  The tag search dropdown at the top is generated automatically from
+  whatever tags show up across all photos below — add a new tag to a
+  photo and a new option appears, no need to edit anything else.
 
   Until a file exists at a given src, this renders a colored placeholder
   block instead, so the layout still looks right.
@@ -42,8 +42,15 @@ const PHOTOS = [
   { src: "Photos/pathway_perspective_DAMTP.jpg", alt: "Pathway outside DAMTP in Cambridge.", tags: ["perspective"], date: "October 13, 2025", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/133 106mm ISO161" },
 ];
 
+// Guard against entries missing a tags array (e.g. added by hand and forgotten)
+PHOTOS.forEach((p) => { if (!p.tags) p.tags = []; });
+
 const gallery = document.getElementById("gallery");
-const filterNav = document.getElementById("filters");
+const filterSearch = document.getElementById("filterSearch");
+const filterInput = document.getElementById("filterInput");
+const filterDropdown = document.getElementById("filterDropdown");
+const filterOptions = document.getElementById("filterOptions");
+const filterClear = document.getElementById("filterClear");
 
 // Rough aspect ratios so placeholder blocks aren't all identical squares
 const PLACEHOLDER_RATIOS = ["3/4", "4/5", "1/1", "5/4", "3/5"];
@@ -73,48 +80,95 @@ function hashColor(tag) {
   return PALETTE[Math.abs(hash) % PALETTE.length];
 }
 
-function buildFilterButtons() {
-  filterNav.innerHTML = "";
+function tagCounts() {
+  const counts = {};
+  PHOTOS.forEach((p) => p.tags.forEach((t) => { counts[t] = (counts[t] || 0) + 1; }));
+  return counts;
+}
 
-  const allBtn = document.createElement("button");
-  allBtn.className = "filter-btn active";
-  allBtn.textContent = "All";
-  allBtn.addEventListener("click", () => {
-    selectedTags.clear();
-    updateFilterUI();
-    applyFilter();
-  });
-  filterNav.appendChild(allBtn);
+function renderFilterOptions() {
+  const query = filterInput.value.trim().toLowerCase();
+  const counts = tagCounts();
+  const tags = allTags().filter((t) => t.toLowerCase().includes(query));
 
-  allTags().forEach((tag) => {
-    const btn = document.createElement("button");
-    btn.className = "filter-btn";
-    btn.textContent = tag;
-    btn.dataset.tag = tag;
-    btn.addEventListener("click", () => {
-      if (selectedTags.has(tag)) {
-        selectedTags.delete(tag);
-      } else {
-        selectedTags.add(tag);
-      }
+  filterOptions.innerHTML = "";
+
+  if (tags.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "filter-empty";
+    empty.textContent = "No matching tags";
+    filterOptions.appendChild(empty);
+    return;
+  }
+
+  tags.forEach((tag) => {
+    const label = document.createElement("label");
+    label.className = "filter-option";
+    label.classList.toggle("checked", selectedTags.has(tag));
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = selectedTags.has(tag);
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) selectedTags.add(tag);
+      else selectedTags.delete(tag);
+      label.classList.toggle("checked", checkbox.checked);
       updateFilterUI();
       applyFilter();
     });
-    filterNav.appendChild(btn);
+
+    const text = document.createElement("span");
+    text.textContent = tag;
+
+    const count = document.createElement("span");
+    count.className = "count";
+    count.textContent = "(" + counts[tag] + ")";
+
+    label.appendChild(checkbox);
+    label.appendChild(text);
+    label.appendChild(count);
+    filterOptions.appendChild(label);
   });
 }
 
 function updateFilterUI() {
-  const buttons = filterNav.querySelectorAll(".filter-btn");
-  buttons.forEach((btn) => {
-    if (!btn.dataset.tag) {
-      // "All" button — active only when nothing else is selected
-      btn.classList.toggle("active", selectedTags.size === 0);
-    } else {
-      btn.classList.toggle("active", selectedTags.has(btn.dataset.tag));
-    }
-  });
+  filterClear.disabled = selectedTags.size === 0;
+  filterInput.placeholder = selectedTags.size === 0
+    ? "Filter by tag…"
+    : [...selectedTags].join(", ");
 }
+
+function openFilterDropdown() {
+  renderFilterOptions();
+  filterDropdown.hidden = false;
+}
+
+function closeFilterDropdown() {
+  filterDropdown.hidden = true;
+}
+
+filterInput.addEventListener("focus", openFilterDropdown);
+filterInput.addEventListener("click", openFilterDropdown);
+filterInput.addEventListener("input", renderFilterOptions);
+
+filterClear.addEventListener("click", () => {
+  selectedTags.clear();
+  updateFilterUI();
+  applyFilter();
+  renderFilterOptions();
+  filterInput.focus();
+});
+
+document.addEventListener("click", (e) => {
+  if (!filterSearch.contains(e.target)) closeFilterDropdown();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !filterDropdown.hidden) {
+    closeFilterDropdown();
+    filterInput.blur();
+  }
+});
 
 function applyFilter() {
   document.querySelectorAll(".photo-card").forEach((card) => {
@@ -345,5 +399,5 @@ function toggleZoom() {
   }
 }
 
-buildFilterButtons();
+updateFilterUI();
 render();

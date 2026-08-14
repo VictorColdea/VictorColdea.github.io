@@ -52,29 +52,92 @@ body {
   text-decoration: none;
 }
 
-.filters {
-  display: flex;
-  gap: 1.5rem;
+.filter-search {
+  position: relative;
+  width: 220px;
+  max-width: 100%;
 }
 
-.filter-btn {
+.filter-input {
+  width: 100%;
   background: none;
   border: none;
+  border-bottom: 2px solid transparent;
+  border-bottom-color: var(--line);
   font-family: var(--font-mono);
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--ink-soft);
-  cursor: pointer;
+  color: var(--ink);
   padding: 0.25rem 0;
-  border-bottom: 2px solid transparent;
+  outline: none;
 }
 
-.filter-btn:hover { color: var(--ink); }
+.filter-input::placeholder { color: var(--ink-soft); }
+.filter-input:focus { border-bottom-color: var(--accent); }
 
-.filter-btn.active {
-  color: var(--ink);
-  border-bottom-color: var(--accent);
+.filter-dropdown {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 0;
+  right: 0;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 20;
+  box-shadow: 0 10px 28px rgba(22, 24, 26, 0.18);
+}
+
+.filter-dropdown[hidden] { display: none; }
+
+.filter-clear {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.filter-clear:hover { color: var(--ink); }
+.filter-clear:disabled { color: var(--ink-soft); cursor: default; }
+
+.filter-options { padding: 0.25rem 0; }
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.filter-option:hover { color: var(--ink); background: rgba(22, 24, 26, 0.05); }
+
+.filter-option input[type="checkbox"] { accent-color: var(--accent); }
+
+.filter-option.checked { color: var(--ink); }
+
+.filter-option .count { margin-left: auto; opacity: 0.6; font-size: 0.7rem; }
+
+.filter-empty {
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
 }
 
 .nav-link {
