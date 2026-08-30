@@ -1,7 +1,10 @@
 *.docx
 *.pdf
-README_2.md
+__pycache__/
+.claude/
 .venv/
 photos_array_output.txt
 photos_array_output_js.txt
 geonames_major_cities.csv
+README_2.md
+Updates to be made.md

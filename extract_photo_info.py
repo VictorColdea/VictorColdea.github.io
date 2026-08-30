@@ -252,6 +252,7 @@ def scan_script_js():
                 print(f"  ! Couldn't read EXIF from {src}: {e}")
             if date_str or location_str or camera_str:
                 found += 1
+                print(f"  + Found EXIF in {src}: date={date_str}, location={location_str}, camera={camera_str}")
             else:
                 missing_exif += 1
                 print(f"  ! No EXIF date/GPS/camera found in {src} (metadata may have been stripped)")
