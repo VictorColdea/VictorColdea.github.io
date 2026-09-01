@@ -272,9 +272,7 @@ def scan_script_js():
     with open(OUTPUT_FILE_JS, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
-    print()
-    print(f"Done — {found} photo(s) got date/location/camera, {missing_exif} had no EXIF to read, "
-          f"{missing_file} are still placeholders with no file on disk.")
+    print(f"\nDone — {found} photo(s) have date/location/camera, {missing_exif} had no EXIF to read, \n{missing_file} are still placeholders with no file on disk.")
     print(f"Result written to {OUTPUT_FILE_JS} — open it and paste in whichever rows you want")
     print(f"into the `const PHOTOS = [...]` block in {SCRIPT_JS}.")
 
@@ -304,6 +302,7 @@ def scan_photos_folder():
             print(f"  ! Couldn't read EXIF from {src}: {e}")
         if date_str or location_str or camera_str:
             found += 1
+            print(f"  + Found EXIF in {src}: date={date_str}, location={location_str}, camera={camera_str}")
         else:
             missing_exif += 1
             print(f"  ! No EXIF date/GPS/camera found in {src} (metadata may have been stripped)")
@@ -321,14 +320,14 @@ def scan_photos_folder():
         f.write("\n".join(lines) + "\n")
 
     print()
-    print(f"Done — {found} photo(s) got date/location/camera, {missing_exif} had no EXIF to read.")
+    print(f"Done — {found} photo(s) had date/location/camera, {missing_exif} had no EXIF to read.")
     print(f"Result written to {OUTPUT_FILE_FOLDER} — these entries only have `src` (plus")
     print(f"date/location/camera where found). Add `alt` and `tags` by hand, then paste")
     print(f"whichever rows you want into script.js.")
 
 
 def main():
-    choice = None
+    choice = "2"#None # Just always do the Photos/ by default
     while choice not in ("1", "2"):
         choice = input(
             "How should photos be found?\n"
