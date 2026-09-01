@@ -1,11 +1,19 @@
 /*
   Add your own photos here. Each entry needs:
-    src   — path to the image, e.g. "Photos/urban-02.jpg"
+    src   — path to the image, e.g. "Photos/web/urban-02.jpg"
     alt   — short description (for accessibility, also helps SEO)
     tags  — an array of any words you want, e.g. ["urban", "night", "phone"]
 
+  src should point at a resized/compressed copy, not the raw camera
+  file — run compress_photos.py to generate Photos/web/ from whatever
+  is in Photos/ (originals are left untouched). It also prints the
+  width/height to paste in below, which let the browser reserve the
+  right amount of space before the (lazy-loaded) image arrives.
+
   A few more fields are optional and show up in the lightbox side panel
   if present:
+    width, height — intrinsic pixel size of the src image (avoids
+                    layout shift while it lazy-loads)
     date     — e.g. "August 15, 2024"
     location — e.g. "Tokyo, Japan"
     camera   — e.g. "Google Pixel 6 Pro  f/3.5 1/168 19mm ISO34"
@@ -25,24 +33,41 @@
 */
 const ZOOM_FACTOR = 2;
 
-const PHOTOS = [
-  { src: "Photos/moller-to-the-moon.jpg", alt: "Moller to the Moon.", tags: ["night"], date: "June 8, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/38 24mm ISO550" },
-  { src: "Photos/windmills_austria.jpg", alt: "Wind turbines just outside Bratislava.", tags: ['wind turbine'], date: "June 25, 2026", location: "Karlova Ves, Slovakia", camera: "Google Pixel 6 Pro  f/1.85 1/268 24mm ISO62" },
-  { src: "Photos/pathway_perspective_DAMTP.jpg", alt: "Pathway outside DAMTP in Cambridge.", tags: ["perspective"], date: "October 13, 2025", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/133 106mm ISO161" },
-  { src: "Photos/plane_view_windmills.jpg", alt: "View from a plane.", tags: ['wind turbine'], date: "September 8, 2025", camera: "Google Pixel 6 Pro  f/3.5 1/90 106mm ISO44" },
-  { src: "Photos/venice_reflection_buildings.jpg", tags: ['urban'], date: "August 10, 2025", location: "Venice, Italy", camera: "Google Pixel 6 Pro  f/1.85 1/2137 24mm ISO47" },
-  { src: "Photos/berliner_dom_angle_streetlights.jpg", alt: "Berliner Dom", tags: ["night", "urban"], date: "March 21, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/47 24mm ISO334" },
-  { src: "Photos/ducklings_cavendish_pond.jpg", alt: "Ducklings next to the Cavendish pond.", tags: ["wildlife"], date: "July 29, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/168 106mm ISO34" },
-  { src: "Photos/yellow_windows_oxford_physics.jpg", alt: "Oxford Physics. They ought to fill those potholes...", tags: ['night'], date: "December 18, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/25 106mm ISO470" },
-  { src: "Photos/sunset_krakow.jpg", tags: ["sunset"], date: "September 19, 2025", location: "Krakow, Poland", camera: "Google Pixel 6 Pro  f/3.5 1/662 106mm ISO17" },
-  { src: "Photos/ucsb_ocean_sunrise.jpg", alt: "Sunrise near Santa Barbara.", date: "September 4, 2023", tags: ['sunrise'], camera: "Sony XQ-AD51  f/2 1/4329 4mm ISO121" },
-  { src: "Photos/beecroft_building.jpg", alt: "Beecroft Building in the Physics Department.", tags: ["indoors", "perspective"], date: "October 1, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/82 24mm ISO85" },
-  { src: "Photos/churchill_tree_backlit.jpg", tags: ["sunlight"], date: "May 17, 2026", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/643 24mm ISO43" },
-  { src: "Photos/berlin_bridge_park_reflection_cropped.jpg", date: "March 19, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/369 24mm ISO39" },
-  { src: "Photos/moon_crescent_oxford.jpg", tags: ["night"],date: "January 2, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/15 106mm ISO2090" },
-  { src: "Photos/hepworth_fog_light.jpg", tags: ["night"], date: "November 1, 2024", camera: "Google Pixel 6 Pro  f/1.85 1/6 24mm ISO1113" },
-];
+// const PHOTOS1 = [
+//   { src: "Photos/web/moller-to-the-moon.jpg", width: 1500, height: 2000, alt: "Moller to the Moon.", tags: ["night"], date: "June 8, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/38 24mm ISO550" },
+//   { src: "Photos/web/windmills_austria.jpg", width: 1500, height: 2000, alt: "Wind turbines just outside Bratislava.", tags: ['wind turbine'], date: "June 25, 2026", location: "Karlova Ves, Slovakia", camera: "Google Pixel 6 Pro  f/1.85 1/268 24mm ISO62" },
+//   { src: "Photos/web/pathway_perspective_DAMTP.jpg", width: 1500, height: 2000, alt: "Pathway outside DAMTP in Cambridge.", tags: ["perspective"], date: "October 13, 2025", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/133 106mm ISO161" },
+//   { src: "Photos/web/plane_view_windmills.jpg", width: 1500, height: 2000, alt: "View from a plane.", tags: ['wind turbine'], date: "September 8, 2025", camera: "Google Pixel 6 Pro  f/3.5 1/90 106mm ISO44" },
+//   { src: "Photos/web/venice_reflection_buildings.jpg", width: 1500, height: 2000, tags: ['urban'], date: "August 10, 2025", location: "Venice, Italy", camera: "Google Pixel 6 Pro  f/1.85 1/2137 24mm ISO47" },
+//   { src: "Photos/web/berliner_dom_angle_streetlights.jpg", width: 1506, height: 2000, alt: "Berliner Dom", tags: ["night", "urban"], date: "March 21, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/47 24mm ISO334" },
+//   { src: "Photos/web/ducklings_cavendish_pond.jpg", width: 1500, height: 2000, alt: "Ducklings next to the Cavendish pond.", tags: ["wildlife"], date: "July 29, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/168 106mm ISO34" },
+//   { src: "Photos/web/yellow_windows_oxford_physics.jpg", width: 1415, height: 2000, alt: "Oxford Physics. They ought to fill those potholes...", tags: ['night'], date: "December 18, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/25 106mm ISO470" },
+//   { src: "Photos/web/sunset_krakow.jpg", width: 1500, height: 2000, tags: ["sunset"], date: "September 19, 2025", location: "Krakow, Poland", camera: "Google Pixel 6 Pro  f/3.5 1/662 106mm ISO17" },
+//   { src: "Photos/web/ucsb_ocean_sunrise.jpg", width: 1500, height: 2000, alt: "Sunrise near Santa Barbara.", date: "September 4, 2023", tags: ['sunrise'], camera: "Sony XQ-AD51  f/2 1/4329 4mm ISO121" },
+//   { src: "Photos/web/beecroft_building.jpg", width: 1500, height: 2000, alt: "Beecroft Building in the Physics Department.", tags: ["indoors", "perspective"], date: "October 1, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/82 24mm ISO85" },
+//   { src: "Photos/web/churchill_tree_backlit.jpg", width: 1500, height: 2000, tags: ["sunlight"], date: "May 17, 2026", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/643 24mm ISO43" },
+//   { src: "Photos/web/berlin_bridge_park_reflection.jpg", width: 1506, height: 2000, date: "March 19, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/369 24mm ISO39" },
+//   { src: "Photos/web/moon_crescent_oxford.jpg", width: 1500, height: 2000, tags: ["night"],date: "January 2, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/15 106mm ISO2090" },
+//   { src: "Photos/web/hepworth_fog_light.jpg", width: 1500, height: 2000, tags: ["night"], date: "November 1, 2024", camera: "Google Pixel 6 Pro  f/1.85 1/6 24mm ISO1113" },
+// ];
 
+const PHOTOS = [
+  { src: "Photos/moller-to-the-moon.jpg", width: 1500, height: 2000, alt: "Moller to the Moon.", tags: ["night"], date: "June 8, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/38 24mm ISO550" },
+  { src: "Photos/windmills_austria.jpg", width: 1500, height: 2000, alt: "Wind turbines just outside Bratislava.", tags: ['wind turbine'], date: "June 25, 2026", location: "Karlova Ves, Slovakia", camera: "Google Pixel 6 Pro  f/1.85 1/268 24mm ISO62" },
+  { src: "Photos/pathway_perspective_DAMTP.jpg", width: 1500, height: 2000, alt: "Pathway outside DAMTP in Cambridge.", tags: ["perspective"], date: "October 13, 2025", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/133 106mm ISO161" },
+  { src: "Photos/plane_view_windmills.jpg", width: 1500, height: 2000, alt: "View from a plane.", tags: ['wind turbine'], date: "September 8, 2025", camera: "Google Pixel 6 Pro  f/3.5 1/90 106mm ISO44" },
+  { src: "Photos/venice_reflection_buildings.jpg", width: 1500, height: 2000, tags: ['urban'], date: "August 10, 2025", location: "Venice, Italy", camera: "Google Pixel 6 Pro  f/1.85 1/2137 24mm ISO47" },
+  { src: "Photos/berliner_dom_angle_streetlights.jpg", width: 1506, height: 2000, alt: "Berliner Dom", tags: ["night", "urban"], date: "March 21, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/47 24mm ISO334" },
+  { src: "Photos/ducklings_cavendish_pond.jpg", width: 1500, height: 2000, alt: "Ducklings next to the Cavendish pond.", tags: ["wildlife"], date: "July 29, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/168 106mm ISO34" },
+  { src: "Photos/yellow_windows_oxford_physics.jpg", width: 1415, height: 2000, alt: "Oxford Physics. They ought to fill those potholes...", tags: ['night'], date: "December 18, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/25 106mm ISO470" },
+  { src: "Photos/sunset_krakow.jpg", width: 1500, height: 2000, tags: ["sunset"], date: "September 19, 2025", location: "Krakow, Poland", camera: "Google Pixel 6 Pro  f/3.5 1/662 106mm ISO17" },
+  { src: "Photos/ucsb_ocean_sunrise.jpg", width: 1500, height: 2000, alt: "Sunrise near Santa Barbara.", date: "September 4, 2023", tags: ['sunrise'], camera: "Sony XQ-AD51  f/2 1/4329 4mm ISO121" },
+  { src: "Photos/beecroft_building.jpg", width: 1500, height: 2000, alt: "Beecroft Building in the Physics Department.", tags: ["indoors", "perspective"], date: "October 1, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/82 24mm ISO85" },
+  { src: "Photos/churchill_tree_backlit.jpg", width: 1500, height: 2000, tags: ["sunlight"], date: "May 17, 2026", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/643 24mm ISO43" },
+  { src: "Photos/berlin_bridge_park_reflection.jpg", width: 1506, height: 2000, date: "March 19, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/369 24mm ISO39" },
+  { src: "Photos/moon_crescent_oxford.jpg", width: 1500, height: 2000, tags: ["night"],date: "January 2, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/15 106mm ISO2090" },
+  { src: "Photos/hepworth_fog_light.jpg", width: 1500, height: 2000, tags: ["night"], date: "November 1, 2024", camera: "Google Pixel 6 Pro  f/1.85 1/6 24mm ISO1113" },
+];
 
 
 
@@ -194,24 +219,31 @@ function render() {
     card.className = "photo-card";
     card.dataset.tags = photo.tags.join(",");
 
-    const img = new Image();
-    img.onload = () => {
-      loadedSrc[i] = true;
-      card.innerHTML = "";
-      img.alt = photo.alt;
-      card.appendChild(img);
-      card.appendChild(caption(i, photo.tags));
-    };
+    // A real <img>, appended before its src loads, so the browser's
+    // native lazy loading can actually defer photos below the fold
+    // instead of fetching everything up front.
+    const img = document.createElement("img");
+    img.loading = "lazy";
+    img.decoding = "async";
+    if (photo.width && photo.height) {
+      img.width = photo.width;
+      img.height = photo.height;
+    }
+    img.alt = photo.alt || "";
+    img.onload = () => { loadedSrc[i] = true; };
     img.onerror = () => {
       loadedSrc[i] = false;
       const ph = document.createElement("div");
       ph.className = "placeholder";
       ph.style.setProperty("--ar", PLACEHOLDER_RATIOS[i % PLACEHOLDER_RATIOS.length]);
       ph.style.background = hashColor(photo.tags[0] || "misc");
+      card.innerHTML = "";
       card.appendChild(ph);
       card.appendChild(caption(i, photo.tags));
     };
     img.src = photo.src;
+    card.appendChild(img);
+    card.appendChild(caption(i, photo.tags));
 
     card.addEventListener("click", () => openLightbox(i));
 
