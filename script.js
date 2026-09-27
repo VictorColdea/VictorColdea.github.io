@@ -56,8 +56,9 @@ const PHOTOS = [
   { src: "Photos/windmills_austria.jpg", width: 1500, height: 2000, alt: "Wind turbines just outside Bratislava.", tags: ['wind turbine'], date: "June 25, 2026", location: "Karlova Ves, Slovakia", camera: "Google Pixel 6 Pro  f/1.85 1/268 24mm ISO62" },
   { src: "Photos/pathway_perspective_DAMTP.jpg", width: 1500, height: 2000, alt: "Pathway outside DAMTP in Cambridge.", tags: ["perspective"], date: "October 13, 2025", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/133 106mm ISO161" },
   { src: "Photos/plane_view_windmills.jpg", width: 1500, height: 2000, alt: "View from a plane.", tags: ['wind turbine'], date: "September 8, 2025", camera: "Google Pixel 6 Pro  f/3.5 1/90 106mm ISO44" },
+  { src: "Photos/frankfurt_euro.jpg", date: "July 7, 2024", location: "Frankfurt am Main, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/2463 24mm ISO35" },
   { src: "Photos/venice_reflection_buildings.jpg", width: 1500, height: 2000, tags: ['urban'], date: "August 10, 2025", location: "Venice, Italy", camera: "Google Pixel 6 Pro  f/1.85 1/2137 24mm ISO47" },
-  { src: "Photos/berliner_dom_angle_streetlights.jpg", width: 1506, height: 2000, alt: "Berliner Dom", tags: ["night", "urban"], date: "March 21, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/47 24mm ISO334" },
+  { src: "Photos/candle_churchill-formal_steven.jpg", date: "February 16, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/224 24mm ISO348" },  { src: "Photos/berliner_dom_angle_streetlights.jpg", width: 1506, height: 2000, alt: "Berliner Dom", tags: ["night", "urban"], date: "March 21, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/47 24mm ISO334" },
   { src: "Photos/ducklings_cavendish_pond.jpg", width: 1500, height: 2000, alt: "Ducklings next to the Cavendish pond.", tags: ["wildlife"], date: "July 29, 2024", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/168 106mm ISO34" },
   { src: "Photos/yellow_windows_oxford_physics.jpg", width: 1415, height: 2000, alt: "Oxford Physics. They ought to fill those potholes...", tags: ['night'], date: "December 18, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/25 106mm ISO470" },
   { src: "Photos/sunset_krakow.jpg", width: 1500, height: 2000, tags: ["sunset"], date: "September 19, 2025", location: "Krakow, Poland", camera: "Google Pixel 6 Pro  f/3.5 1/662 106mm ISO17" },
@@ -66,6 +67,7 @@ const PHOTOS = [
   { src: "Photos/churchill_tree_backlit.jpg", width: 1500, height: 2000, tags: ["sunlight"], date: "May 17, 2026", location: "Cambridge, United Kingdom", camera: "Google Pixel 6 Pro  f/1.85 1/643 24mm ISO43" },
   { src: "Photos/berlin_bridge_park_reflection.jpg", width: 1506, height: 2000, date: "March 19, 2024", location: "Berlin, Germany", camera: "Google Pixel 6 Pro  f/1.85 1/369 24mm ISO39" },
   { src: "Photos/moon_crescent_oxford.jpg", width: 1500, height: 2000, tags: ["night"],date: "January 2, 2025", location: "Oxford, United Kingdom", camera: "Google Pixel 6 Pro  f/3.5 1/15 106mm ISO2090" },
+  { src: "Photos/bonfire_cambridge.jpg", date: "November 5, 2022", location: "Cambridge, United Kingdom", camera: "Sony XQ-AD51  f/2 1/659 4mm ISO100" },
   { src: "Photos/hepworth_fog_light.jpg", width: 1500, height: 2000, tags: ["night"], date: "November 1, 2024", camera: "Google Pixel 6 Pro  f/1.85 1/6 24mm ISO1113" },
 ];
 
